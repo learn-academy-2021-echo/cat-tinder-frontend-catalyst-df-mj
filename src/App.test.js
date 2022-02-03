@@ -1,8 +1,34 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from 'react'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import App from './App'
+import Home from './pages/Home'
+Enzyme.configure({adapter: new Adapter()})
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+describe("When App renders", () => {
+  it("displays a header and footer", () => {
+    //Arrange
+    const renderedApp = shallow(<App/>)
+    //variable that class on shallow which is passed an arguemnt
+    const renderedHeader = renderedApp.find("Header")
+    const renderedFooter = renderedApp.find("Footer")
+    //Assert
+    expect(renderedHeader.length).toEqual(1)
+    expect(renderedFooter.length).toEqual(1)
+  })
+
+  it("providing a route '/' to the home component", () => {
+    const renderedApp = shallow(<App/>)
+    const renderedHomeRoute = renderedApp.find('[path="/"]')
+    expect(renderedHomeRoute.length).toEqual(1)
+    expect(renderedHomeRoute.props().component).toEqual(Home)
+  })
+
+  it("providing a route '/' to the home component", () => {
+    const renderedApp = shallow(<App/>)
+    const renderedHomeRoute = renderedApp.find('[path="/"]')
+    expect(renderedHomeRoute.length).toEqual(1)
+    expect(renderedHomeRoute.props().component).toEqual(Home)
+
+  })
+})
